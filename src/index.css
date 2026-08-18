@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Identidade visual Vale */
+  --color-vale-green: #007e7a;
+  --color-vale-green-dark: #005f5c;
+  --color-vale-green-light: #e6f3f2;
+  --color-vale-yellow: #ecb11f;
+  --color-vale-gray: #919191;
+  --color-vale-gray-light: #f4f4f4;
+
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-vale-gray-light text-neutral-900 antialiased;
+    font-family: var(--font-sans);
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+}
