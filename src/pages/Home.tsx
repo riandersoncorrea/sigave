@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import { Button } from '@/components/ui/Button'
+
 const FLUXO = [
   'Cadastrar',
   'Inspecionar',
@@ -8,7 +11,7 @@ const FLUXO = [
 
 export function Home() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="mx-auto flex max-w-md flex-col gap-6">
       <div className="rounded-xl bg-white p-5 shadow-sm">
         <span className="bg-vale-green-light text-vale-green-dark inline-block rounded-full px-3 py-1 text-xs font-semibold">
           Fundação do projeto
@@ -20,6 +23,11 @@ export function Home() {
           Coleta e organização padronizada de dados de campo das Áreas Verdes de
           Manutenção (AVM).
         </p>
+        <Link to="/avms" className="mt-4 block">
+          <Button fullWidth={false} className="px-4">
+            Ver AVMs
+          </Button>
+        </Link>
       </div>
 
       <div className="rounded-xl bg-white p-5 shadow-sm">

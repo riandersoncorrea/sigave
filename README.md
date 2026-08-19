@@ -87,7 +87,7 @@ somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 
 - **Sprint 0** — Fundação do projeto ✅
 - **Sprint 1** — Banco de dados + autenticação + perfis ✅
-- **Sprint 2** — Cadastro e gestão de AVMs
+- **Sprint 2** — Cadastro e gestão de AVMs ✅
 - **Sprint 3** — Formulário completo de levantamento
 - **Sprint 4** — Fotografias + ocorrências + modo campo
 - **Sprint 5** — Checklist + resumo + envio

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/features/auth/useAuth'
 import { signOut } from '@/services/auth'
@@ -21,9 +21,19 @@ export function Header() {
   return (
     <header className="bg-vale-green sticky top-0 z-10 shadow-md">
       <div className="border-vale-yellow flex h-14 items-center justify-between border-b-4 px-4">
-        <span className="text-lg font-bold tracking-tight text-white">
-          SIGAVE <span className="text-vale-yellow">CAMPO</span>
-        </span>
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-lg font-bold tracking-tight text-white">
+            SIGAVE <span className="text-vale-yellow">CAMPO</span>
+          </Link>
+          {profile && (
+            <Link
+              to="/avms"
+              className="hidden text-sm font-medium text-white/90 hover:text-white sm:inline"
+            >
+              AVMs
+            </Link>
+          )}
+        </div>
 
         {profile && (
           <div className="flex items-center gap-3">
@@ -38,7 +48,8 @@ export function Header() {
             <Button
               type="button"
               variant="outline"
-              className="min-h-9 w-auto border-white px-3 py-1.5 text-sm text-white hover:bg-white/10"
+              fullWidth={false}
+              className="min-h-9 border-white px-3 py-1.5 text-sm text-white hover:bg-white/10"
               onClick={handleLogout}
             >
               Sair

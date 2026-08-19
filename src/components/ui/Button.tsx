@@ -4,6 +4,7 @@ type ButtonVariant = 'primary' | 'secondary' | 'outline'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
+  fullWidth?: boolean
   children: ReactNode
 }
 
@@ -17,13 +18,14 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 
 export function Button({
   variant = 'primary',
+  fullWidth = true,
   className = '',
   children,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex min-h-12 w-full items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`inline-flex min-h-12 ${fullWidth ? 'w-full' : 'w-auto'} items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${VARIANT_CLASSES[variant]} ${className}`}
       {...props}
     >
       {children}
