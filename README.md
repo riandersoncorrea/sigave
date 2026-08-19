@@ -45,6 +45,22 @@ src/
   routes/       definição de rotas
 ```
 
+## Banco de dados
+
+Migrations SQL em `supabase/migrations/` (Postgres + Row Level Security via
+Supabase CLI). Aplicar com:
+
+```bash
+npx supabase login --token <personal-access-token>
+npx supabase link --project-ref <project-ref>
+npx supabase db push
+npx supabase gen types typescript --linked > src/types/database.ts
+```
+
+## Documentação
+
+- [Criando usuários de teste](docs/sprint-1-usuarios-teste.md)
+
 ## Desenvolvimento
 
 ```bash
@@ -70,7 +86,7 @@ O desenvolvimento é feito em sprints incrementais. Cada sprint é executada
 somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 
 - **Sprint 0** — Fundação do projeto ✅
-- **Sprint 1** — Banco de dados + autenticação + perfis
+- **Sprint 1** — Banco de dados + autenticação + perfis ✅
 - **Sprint 2** — Cadastro e gestão de AVMs
 - **Sprint 3** — Formulário completo de levantamento
 - **Sprint 4** — Fotografias + ocorrências + modo campo

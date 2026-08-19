@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+.claude/
+CLAUDE.md
+docs/
 # Environment variables
 .env
 .env.*
