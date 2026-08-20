@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom'
 import { getAvm } from '@/services/avms'
 import type { Diagnostico } from '@/services/diagnosticos'
 import { getOrCreateDiagnostico } from '@/services/diagnosticos'
-import { getLevantamento, type Levantamento } from '@/services/levantamentos'
+import {
+  getLevantamento,
+  statusEhEditavel,
+  type Levantamento,
+} from '@/services/levantamentos'
 import type { AvmComRelacoes } from '@/types/avm'
 
 export interface LevantamentoOutletContext {
@@ -14,6 +18,7 @@ export interface LevantamentoOutletContext {
 
 export function LevantamentoWizardRoute() {
   const { id } = useParams<{ id: string }>()
+  const location = useLocation()
   const [levantamento, setLevantamento] = useState<
     Levantamento | null | undefined
   >(undefined)
@@ -45,6 +50,15 @@ export function LevantamentoWizardRoute() {
         Levantamento não encontrado ou você não tem acesso a ele.
       </p>
     )
+  }
+
+  // "Após envio, não permitir edição normal" — em vez de deixar o usuário
+  // entrar numa etapa de edição e só descobrir que a gravação falha (RLS
+  // bloqueando por trás), redireciona direto para o Resumo, que já mostra
+  // o estado somente-leitura com clareza.
+  const etapaAtual = location.pathname.split('/').pop()
+  if (etapaAtual !== 'resumo' && !statusEhEditavel(levantamento.status)) {
+    return <Navigate to={`/levantamentos/${levantamento.id}/resumo`} replace />
   }
 
   return (

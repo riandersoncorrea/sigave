@@ -214,6 +214,7 @@ export type Database = {
           meio_ambiente_categorias: string[]
           meio_ambiente_gate: boolean | null
           meio_ambiente_observacoes: string | null
+          observacao_geral: string | null
           obstaculos: Json
           recursos_apoio_operacional: string | null
           recursos_auxiliares: number | null
@@ -266,6 +267,7 @@ export type Database = {
           meio_ambiente_categorias?: string[]
           meio_ambiente_gate?: boolean | null
           meio_ambiente_observacoes?: string | null
+          observacao_geral?: string | null
           obstaculos?: Json
           recursos_apoio_operacional?: string | null
           recursos_auxiliares?: number | null
@@ -318,6 +320,7 @@ export type Database = {
           meio_ambiente_categorias?: string[]
           meio_ambiente_gate?: boolean | null
           meio_ambiente_observacoes?: string | null
+          observacao_geral?: string | null
           obstaculos?: Json
           recursos_apoio_operacional?: string | null
           recursos_auxiliares?: number | null
@@ -612,6 +615,48 @@ export type Database = {
           {
             foreignKeyName: 'interferencias_updated_by_fkey'
             columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      levantamento_historico_status: {
+        Row: {
+          criado_em: string
+          id: string
+          levantamento_id: string
+          status_anterior: Database['public']['Enums']['status_ciclo'] | null
+          status_novo: Database['public']['Enums']['status_ciclo']
+          usuario_id: string | null
+        }
+        Insert: {
+          criado_em?: string
+          id?: string
+          levantamento_id: string
+          status_anterior?: Database['public']['Enums']['status_ciclo'] | null
+          status_novo: Database['public']['Enums']['status_ciclo']
+          usuario_id?: string | null
+        }
+        Update: {
+          criado_em?: string
+          id?: string
+          levantamento_id?: string
+          status_anterior?: Database['public']['Enums']['status_ciclo'] | null
+          status_novo?: Database['public']['Enums']['status_ciclo']
+          usuario_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'levantamento_historico_status_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'levantamentos'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'levantamento_historico_status_usuario_id_fkey'
+            columns: ['usuario_id']
             isOneToOne: false
             referencedRelation: 'profiles'
             referencedColumns: ['id']
@@ -1088,6 +1133,10 @@ export type Database = {
     Functions: {
       is_admin: { Args: never; Returns: boolean }
       is_inspetor_do_avm: { Args: { p_avm_id: string }; Returns: boolean }
+      levantamento_editavel: {
+        Args: { p_status: Database['public']['Enums']['status_ciclo'] }
+        Returns: boolean
+      }
       user_perfil: {
         Args: never
         Returns: Database['public']['Enums']['perfil_usuario']
