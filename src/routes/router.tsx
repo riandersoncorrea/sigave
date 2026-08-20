@@ -22,9 +22,12 @@ import { RecursosStep } from '@/pages/levantamento/RecursosStep'
 import { OcorrenciasStep } from '@/pages/levantamento/OcorrenciasStep'
 import { FotografiasStep } from '@/pages/levantamento/FotografiasStep'
 import { ResumoStep } from '@/pages/levantamento/ResumoStep'
+import { ValidacoesListPage } from '@/pages/validacoes/ValidacoesListPage'
+import { ValidacaoReviewPage } from '@/pages/validacoes/ValidacaoReviewPage'
 import { requireSession, requireRole } from '@/features/auth/guards'
 
 const PERFIS_GESTAO_AVM = ['ADMINISTRADOR', 'FISCAL_VALE'] as const
+const PERFIS_VALIDACAO = ['ADMINISTRADOR', 'FISCAL_VALE'] as const
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +51,16 @@ export const router = createBrowserRouter([
         path: 'avms/:id/editar',
         element: <AvmFormPage />,
         loader: () => requireRole([...PERFIS_GESTAO_AVM]),
+      },
+      {
+        path: 'validacoes',
+        element: <ValidacoesListPage />,
+        loader: () => requireRole([...PERFIS_VALIDACAO]),
+      },
+      {
+        path: 'validacoes/:id',
+        element: <ValidacaoReviewPage />,
+        loader: () => requireRole([...PERFIS_VALIDACAO]),
       },
       {
         path: 'levantamentos/:id',

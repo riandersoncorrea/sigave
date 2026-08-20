@@ -33,6 +33,15 @@ export function Header() {
               AVMs
             </Link>
           )}
+          {(profile?.perfil === 'ADMINISTRADOR' ||
+            profile?.perfil === 'FISCAL_VALE') && (
+            <Link
+              to="/validacoes"
+              className="hidden text-sm font-medium text-white/90 hover:text-white sm:inline"
+            >
+              Validações
+            </Link>
+          )}
         </div>
 
         {profile && (
