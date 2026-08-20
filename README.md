@@ -67,6 +67,13 @@ npx supabase gen types typescript --linked > src/types/database.ts
 > time de desenvolvimento — não existe documento-fonte oficial para essas
 > listas. Cada bloco do arquivo está identificado como "(especificado)" ou
 > "(proposto)"; ajustar ali assim que houver uma especificação definitiva.
+> Os tipos de Ocorrência e de Evidência/Fotografia, em contraste, vieram
+> explícitos da especificação da Sprint 4.
+
+> **Ícones do PWA:** `public/icons/icon-192.png` e `icon-512.png` foram
+> gerados automaticamente a partir de `public/favicon.svg` (círculo
+> amarelo sobre fundo verde) — um placeholder funcional, não uma peça de
+> identidade visual definitiva.
 
 ## Desenvolvimento
 
@@ -96,7 +103,7 @@ somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 - **Sprint 1** — Banco de dados + autenticação + perfis ✅
 - **Sprint 2** — Cadastro e gestão de AVMs ✅
 - **Sprint 3** — Formulário completo de levantamento ✅
-- **Sprint 4** — Fotografias + ocorrências + modo campo
+- **Sprint 4** — Fotografias + ocorrências + modo campo ✅
 - **Sprint 5** — Checklist + resumo + envio
 - **Sprint 6** — Validação do Fiscal
 - **Sprint 7** — Dashboard + relatórios + exportação

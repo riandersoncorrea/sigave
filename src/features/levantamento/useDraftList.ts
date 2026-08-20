@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { notificarRascunhoAlterado } from '@/features/levantamento/rascunhoLocal'
 import type { SaveStatus } from '@/features/levantamento/useDraftStep'
 
 interface ComId {
@@ -18,7 +19,9 @@ interface UseDraftListOptions<T extends ComId, TNovo> {
 // real desde o início — sem ids temporários para trocar depois). Edições em
 // um item já existente são gravadas com debounce e, enquanto isso, ficam
 // também em localStorage por item; se a aba fechar antes do debounce
-// disparar, a próxima visita recupera e reenvia essa edição pendente.
+// disparar, a próxima visita recupera e reenvia essa edição pendente. Se a
+// gravação falhar (ex.: sem conexão), o patch acumulado permanece pendente
+// e é reenviado automaticamente ao reconectar ("retomada").
 export function useDraftList<T extends ComId, TNovo>({
   storageKey,
   list,
@@ -36,6 +39,21 @@ export function useDraftList<T extends ComId, TNovo>({
     listRef.current = list
     updateRef.current = update
   })
+
+  async function enviarPendente(id: string) {
+    const paraEnviar = pendentesRef.current[id]
+    if (!paraEnviar) return
+    const key = `${storageKey}:${id}`
+    try {
+      await updateRef.current(id, paraEnviar)
+      delete pendentesRef.current[id]
+      localStorage.removeItem(key)
+      notificarRascunhoAlterado()
+      setStatus('salvo')
+    } catch {
+      setStatus('erro')
+    }
+  }
 
   useEffect(() => {
     let ativo = true
@@ -62,11 +80,14 @@ export function useDraftList<T extends ComId, TNovo>({
       // sido confirmada no banco.
       for (const item of recuperados) {
         const key = `${storageKey}:${item.id}`
-        if (localStorage.getItem(key)) {
-          updateRef
-            .current(item.id, item)
-            .then(() => localStorage.removeItem(key))
-            .catch(() => {})
+        const pendente = localStorage.getItem(key)
+        if (pendente) {
+          try {
+            pendentesRef.current[item.id] = JSON.parse(pendente) as Partial<T>
+          } catch {
+            continue
+          }
+          enviarPendente(item.id)
         }
       }
     }
@@ -76,6 +97,17 @@ export function useDraftList<T extends ComId, TNovo>({
       ativo = false
     }
   }, [storageKey])
+
+  // Retomada: ao reconectar, reenvia qualquer patch que ficou pendente.
+  useEffect(() => {
+    function handleOnline() {
+      for (const id of Object.keys(pendentesRef.current)) {
+        enviarPendente(id)
+      }
+    }
+    window.addEventListener('online', handleOnline)
+    return () => window.removeEventListener('online', handleOnline)
+  }, [])
 
   async function addItem(defaults: TNovo) {
     const criado = await insert(defaults)
@@ -96,25 +128,17 @@ export function useDraftList<T extends ComId, TNovo>({
 
     const key = `${storageKey}:${id}`
     localStorage.setItem(key, JSON.stringify(acumulado))
+    notificarRascunhoAlterado()
     setStatus('salvando')
 
     if (timeoutsRef.current[id]) clearTimeout(timeoutsRef.current[id])
-    timeoutsRef.current[id] = setTimeout(async () => {
-      const paraEnviar = pendentesRef.current[id]
-      try {
-        await updateRef.current(id, paraEnviar)
-        delete pendentesRef.current[id]
-        localStorage.removeItem(key)
-        setStatus('salvo')
-      } catch {
-        setStatus('erro')
-      }
-    }, 800)
+    timeoutsRef.current[id] = setTimeout(() => enviarPendente(id), 800)
   }
 
   async function removeItem(id: string) {
     await remove(id)
     localStorage.removeItem(`${storageKey}:${id}`)
+    notificarRascunhoAlterado()
     if (timeoutsRef.current[id]) clearTimeout(timeoutsRef.current[id])
     delete pendentesRef.current[id]
     setItens((atual) => atual.filter((item) => item.id !== id))

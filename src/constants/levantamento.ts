@@ -252,9 +252,58 @@ export const SERVICO_NECESSIDADE_OPTIONS: Opcao[] = [
 // ---------------------------------------------------------------------
 // Ocorrências (proposto)
 // ---------------------------------------------------------------------
+// Lista autoritativa da Sprint 4 (substitui a proposta provisória da
+// Sprint 3).
 export const OCORRENCIA_TIPO_OPTIONS: Opcao[] = [
+  { value: 'VEGETACAO', label: 'Vegetação' },
+  { value: 'LIMPEZA', label: 'Limpeza' },
+  { value: 'SEGURANCA', label: 'Segurança' },
+  { value: 'INFRAESTRUTURA', label: 'Infraestrutura' },
+  { value: 'AMBIENTAL', label: 'Ambiental' },
+  { value: 'ACESSO', label: 'Acesso' },
+  { value: 'INTERFERENCIA', label: 'Interferência' },
+  { value: 'EQUIPAMENTO', label: 'Equipamento' },
+  { value: 'OUTRO', label: 'Outro' },
+]
+
+export const OCORRENCIA_CRITICIDADE_OPTIONS: Opcao[] = [
+  { value: 'BAIXA', label: 'Baixa' },
+  { value: 'MEDIA', label: 'Média' },
+  { value: 'ALTA', label: 'Alta' },
+  { value: 'CRITICA', label: 'Crítica' },
+]
+
+export const OCORRENCIA_STATUS_OPTIONS: Opcao[] = [
+  { value: 'ABERTA', label: 'Aberta' },
+  { value: 'EM_ANALISE', label: 'Em análise' },
+  { value: 'RESOLVIDA', label: 'Resolvida' },
+  { value: 'NAO_APLICAVEL', label: 'Não aplicável' },
+]
+
+// ---------------------------------------------------------------------
+// Evidências / Fotografias (especificado)
+// ---------------------------------------------------------------------
+export const EVIDENCIA_TIPO_OBRIGATORIOS_OPTIONS: Opcao[] = [
+  { value: 'VISTA_GERAL', label: 'Vista geral' },
+  { value: 'VEGETACAO_PREDOMINANTE', label: 'Vegetação predominante' },
+  { value: 'ACESSO', label: 'Acesso' },
+  {
+    value: 'INFRAESTRUTURA_INTERFERENCIA',
+    label: 'Infraestrutura/interferência',
+  },
+]
+
+export const EVIDENCIA_TIPO_ADICIONAIS_OPTIONS: Opcao[] = [
   { value: 'SEGURANCA', label: 'Segurança' },
   { value: 'AMBIENTAL', label: 'Ambiental' },
-  { value: 'ESTRUTURAL', label: 'Estrutural' },
+  { value: 'OCORRENCIA', label: 'Ocorrência' },
+  { value: 'DRENAGEM', label: 'Drenagem' },
+  { value: 'EQUIPAMENTO', label: 'Equipamento' },
+  { value: 'CONDICAO_CRITICA', label: 'Condição crítica' },
   { value: 'OUTRO', label: 'Outro' },
+]
+
+export const EVIDENCIA_TIPO_OPTIONS: Opcao[] = [
+  ...EVIDENCIA_TIPO_OBRIGATORIOS_OPTIONS,
+  ...EVIDENCIA_TIPO_ADICIONAIS_OPTIONS,
 ]

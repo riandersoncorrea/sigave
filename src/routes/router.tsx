@@ -20,6 +20,7 @@ import { EquipamentosStep } from '@/pages/levantamento/EquipamentosStep'
 import { ServicosStep } from '@/pages/levantamento/ServicosStep'
 import { RecursosStep } from '@/pages/levantamento/RecursosStep'
 import { OcorrenciasStep } from '@/pages/levantamento/OcorrenciasStep'
+import { FotografiasStep } from '@/pages/levantamento/FotografiasStep'
 import { ResumoStep } from '@/pages/levantamento/ResumoStep'
 import { requireSession, requireRole } from '@/features/auth/guards'
 
@@ -66,6 +67,7 @@ export const router = createBrowserRouter([
           { path: 'servicos', element: <ServicosStep /> },
           { path: 'recursos', element: <RecursosStep /> },
           { path: 'ocorrencias', element: <OcorrenciasStep /> },
+          { path: 'fotografias', element: <FotografiasStep /> },
           { path: 'resumo', element: <ResumoStep /> },
         ],
       },

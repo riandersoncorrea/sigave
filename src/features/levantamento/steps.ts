@@ -3,8 +3,8 @@ export interface WizardStepConfig {
   label: string
 }
 
-// Fluxo definido pela Sprint 3. Fotografias fica fora (fora do escopo desta
-// sprint: "Não implementar fotos ainda").
+// Fluxo definido pela Sprint 3, com Fotografias adicionada pela Sprint 4
+// entre Ocorrências e Resumo.
 export const WIZARD_STEPS: WizardStepConfig[] = [
   { slug: 'caracterizacao', label: 'Caracterização' },
   { slug: 'vegetacao', label: 'Vegetação' },
@@ -20,6 +20,7 @@ export const WIZARD_STEPS: WizardStepConfig[] = [
   { slug: 'servicos', label: 'Serviços' },
   { slug: 'recursos', label: 'Recursos' },
   { slug: 'ocorrencias', label: 'Ocorrências' },
+  { slug: 'fotografias', label: 'Fotografias' },
   { slug: 'resumo', label: 'Resumo' },
 ]
 

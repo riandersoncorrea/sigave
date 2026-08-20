@@ -6,10 +6,13 @@ import {
   CLIMA_OPTIONS,
   CONDICAO_DIMENSOES,
   EQUIPAMENTO_AVALIACAO_OPTIONS,
+  EVIDENCIA_TIPO_OBRIGATORIOS_OPTIONS,
   INFRAESTRUTURA_NECESSIDADE_OPTIONS,
   INFRAESTRUTURA_TIPO_OPTIONS,
   LIMPEZA_NIVEL_OPTIONS,
   MEIO_AMBIENTE_CATEGORIAS_OPTIONS,
+  OCORRENCIA_CRITICIDADE_OPTIONS,
+  OCORRENCIA_STATUS_OPTIONS,
   SERVICO_NECESSIDADE_OPTIONS,
   VEGETACAO_TIPO_OPTIONS,
   type Opcao,
@@ -23,6 +26,7 @@ import {
   type Diagnostico,
 } from '@/services/diagnosticos'
 import { listEquipamentos, type Equipamento } from '@/services/equipamentos'
+import { listEvidencias, type Evidencia } from '@/services/evidencias'
 import {
   listInterferencias,
   type Interferencia,
@@ -81,6 +85,7 @@ interface Dados {
   equipamentos: Equipamento[]
   servicos: Servico[]
   ocorrencias: Ocorrencia[]
+  evidencias: Evidencia[]
 }
 
 export function ResumoStep() {
@@ -96,6 +101,7 @@ export function ResumoStep() {
       listEquipamentos(levantamento.id),
       listServicos(levantamento.id),
       listOcorrencias(levantamento.id),
+      listEvidencias(levantamento.id),
     ]).then(
       ([
         diagnostico,
@@ -105,6 +111,7 @@ export function ResumoStep() {
         equipamentos,
         servicos,
         ocorrencias,
+        evidencias,
       ]) => {
         setDados({
           diagnostico,
@@ -114,6 +121,7 @@ export function ResumoStep() {
           equipamentos,
           servicos,
           ocorrencias,
+          evidencias,
         })
       },
     )
@@ -303,13 +311,40 @@ export function ResumoStep() {
           <p>Nenhuma registrada.</p>
         ) : (
           dados.ocorrencias.map((item) => (
-            <Linha
+            <div
               key={item.id}
-              label={item.tipo || 'Item'}
-              valor={item.descricao ?? ''}
-            />
+              className="border-b border-neutral-100 pb-2 last:border-b-0 last:pb-0"
+            >
+              <Linha label={item.tipo || 'Item'} valor={item.descricao ?? ''} />
+              <Linha
+                label="Criticidade"
+                valor={rotulo(OCORRENCIA_CRITICIDADE_OPTIONS, item.criticidade)}
+              />
+              <Linha
+                label="Status"
+                valor={rotulo(OCORRENCIA_STATUS_OPTIONS, item.status)}
+              />
+            </div>
           ))
         )}
+      </Secao>
+
+      <Secao titulo={`Fotografias (${dados.evidencias.length})`}>
+        {EVIDENCIA_TIPO_OBRIGATORIOS_OPTIONS.map((opcao) => {
+          const presente = dados.evidencias.some(
+            (item) => item.tipo === opcao.value,
+          )
+          return (
+            <p key={opcao.value}>
+              <span
+                className={presente ? 'text-vale-green-dark' : 'text-red-600'}
+              >
+                {presente ? '✓' : '✗'}
+              </span>{' '}
+              {opcao.label}
+            </p>
+          )
+        })}
       </Secao>
 
       <Link to={`/avms/${avm.id}`}>

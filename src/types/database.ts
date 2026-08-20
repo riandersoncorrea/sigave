@@ -420,11 +420,13 @@ export type Database = {
           avm_id: string
           created_at: string
           data_hora: string
+          descricao: string | null
           id: string
           levantamento_id: string
           ocorrencia_id: string | null
+          path_storage: string | null
           sequencia: number
-          tipo: string | null
+          tipo: Database['public']['Enums']['evidencia_tipo'] | null
           updated_at: string
           updated_by: string | null
           usuario_id: string
@@ -433,11 +435,13 @@ export type Database = {
           avm_id: string
           created_at?: string
           data_hora?: string
+          descricao?: string | null
           id?: string
           levantamento_id: string
           ocorrencia_id?: string | null
+          path_storage?: string | null
           sequencia?: number
-          tipo?: string | null
+          tipo?: Database['public']['Enums']['evidencia_tipo'] | null
           updated_at?: string
           updated_by?: string | null
           usuario_id?: string
@@ -446,11 +450,13 @@ export type Database = {
           avm_id?: string
           created_at?: string
           data_hora?: string
+          descricao?: string | null
           id?: string
           levantamento_id?: string
           ocorrencia_id?: string | null
+          path_storage?: string | null
           sequencia?: number
-          tipo?: string | null
+          tipo?: Database['public']['Enums']['evidencia_tipo'] | null
           updated_at?: string
           updated_by?: string | null
           usuario_id?: string
@@ -678,36 +684,51 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string | null
+          criticidade:
+            Database['public']['Enums']['ocorrencia_criticidade'] | null
           descricao: string | null
+          evidencia_id: string | null
           id: string
           levantamento_id: string
           origem_modulo: string | null
           origem_referencia: string | null
-          tipo: string | null
+          responsavel: string | null
+          status: Database['public']['Enums']['ocorrencia_status']
+          tipo: Database['public']['Enums']['ocorrencia_tipo'] | null
           updated_at: string
           updated_by: string | null
         }
         Insert: {
           created_at?: string
           created_by?: string | null
+          criticidade?:
+            Database['public']['Enums']['ocorrencia_criticidade'] | null
           descricao?: string | null
+          evidencia_id?: string | null
           id?: string
           levantamento_id: string
           origem_modulo?: string | null
           origem_referencia?: string | null
-          tipo?: string | null
+          responsavel?: string | null
+          status?: Database['public']['Enums']['ocorrencia_status']
+          tipo?: Database['public']['Enums']['ocorrencia_tipo'] | null
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
           created_at?: string
           created_by?: string | null
+          criticidade?:
+            Database['public']['Enums']['ocorrencia_criticidade'] | null
           descricao?: string | null
+          evidencia_id?: string | null
           id?: string
           levantamento_id?: string
           origem_modulo?: string | null
           origem_referencia?: string | null
-          tipo?: string | null
+          responsavel?: string | null
+          status?: Database['public']['Enums']['ocorrencia_status']
+          tipo?: Database['public']['Enums']['ocorrencia_tipo'] | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -717,6 +738,13 @@ export type Database = {
             columns: ['created_by']
             isOneToOne: false
             referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'ocorrencias_evidencia_id_fkey'
+            columns: ['evidencia_id']
+            isOneToOne: false
+            referencedRelation: 'evidencias'
             referencedColumns: ['id']
           },
           {
@@ -1067,6 +1095,30 @@ export type Database = {
     }
     Enums: {
       avm_classe_funcional: 'A' | 'B' | 'C' | 'D'
+      evidencia_tipo:
+        | 'VISTA_GERAL'
+        | 'VEGETACAO_PREDOMINANTE'
+        | 'ACESSO'
+        | 'INFRAESTRUTURA_INTERFERENCIA'
+        | 'SEGURANCA'
+        | 'AMBIENTAL'
+        | 'OCORRENCIA'
+        | 'DRENAGEM'
+        | 'EQUIPAMENTO'
+        | 'CONDICAO_CRITICA'
+        | 'OUTRO'
+      ocorrencia_criticidade: 'BAIXA' | 'MEDIA' | 'ALTA' | 'CRITICA'
+      ocorrencia_status: 'ABERTA' | 'EM_ANALISE' | 'RESOLVIDA' | 'NAO_APLICAVEL'
+      ocorrencia_tipo:
+        | 'VEGETACAO'
+        | 'LIMPEZA'
+        | 'SEGURANCA'
+        | 'INFRAESTRUTURA'
+        | 'AMBIENTAL'
+        | 'ACESSO'
+        | 'INTERFERENCIA'
+        | 'EQUIPAMENTO'
+        | 'OUTRO'
       perfil_usuario: 'ADMINISTRADOR' | 'INSPETOR_SAPORE' | 'FISCAL_VALE'
       status_ciclo:
         | 'NAO_INICIADA'
@@ -1204,6 +1256,32 @@ export const Constants = {
   public: {
     Enums: {
       avm_classe_funcional: ['A', 'B', 'C', 'D'],
+      evidencia_tipo: [
+        'VISTA_GERAL',
+        'VEGETACAO_PREDOMINANTE',
+        'ACESSO',
+        'INFRAESTRUTURA_INTERFERENCIA',
+        'SEGURANCA',
+        'AMBIENTAL',
+        'OCORRENCIA',
+        'DRENAGEM',
+        'EQUIPAMENTO',
+        'CONDICAO_CRITICA',
+        'OUTRO',
+      ],
+      ocorrencia_criticidade: ['BAIXA', 'MEDIA', 'ALTA', 'CRITICA'],
+      ocorrencia_status: ['ABERTA', 'EM_ANALISE', 'RESOLVIDA', 'NAO_APLICAVEL'],
+      ocorrencia_tipo: [
+        'VEGETACAO',
+        'LIMPEZA',
+        'SEGURANCA',
+        'INFRAESTRUTURA',
+        'AMBIENTAL',
+        'ACESSO',
+        'INTERFERENCIA',
+        'EQUIPAMENTO',
+        'OUTRO',
+      ],
       perfil_usuario: ['ADMINISTRADOR', 'INSPETOR_SAPORE', 'FISCAL_VALE'],
       status_ciclo: [
         'NAO_INICIADA',

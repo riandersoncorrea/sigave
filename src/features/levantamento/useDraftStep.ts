@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { notificarRascunhoAlterado } from '@/features/levantamento/rascunhoLocal'
 
 export type SaveStatus = 'carregando' | 'idle' | 'salvando' | 'salvo' | 'erro'
 
@@ -13,7 +14,10 @@ interface UseDraftStepOptions<T> {
 // mudança grava imediatamente no localStorage (nunca perde o que foi
 // digitado ao trocar de etapa) e agenda uma gravação remota com debounce.
 // Ao montar, um rascunho local tem prioridade sobre o valor remoto — ele só
-// existe se uma gravação anterior não chegou a ser confirmada.
+// existe se uma gravação anterior não chegou a ser confirmada. Se a
+// gravação falhar (ex.: sem conexão), o rascunho local permanece e é
+// reenviado automaticamente assim que o navegador voltar a ficar online
+// ("retomada" — Sprint 4, Modo Campo).
 //
 // load/save ficam em refs (não entram nos arrays de dependência dos
 // efeitos): só storageKey deve reiniciar o carregamento, e sempre a versão
@@ -30,9 +34,11 @@ export function useDraftStep<T>({
   const prontoRef = useRef(false)
   const loadRef = useRef(load)
   const saveRef = useRef(save)
+  const valuesRef = useRef(values)
   useEffect(() => {
     loadRef.current = load
     saveRef.current = save
+    valuesRef.current = values
   })
 
   useEffect(() => {
@@ -68,12 +74,14 @@ export function useDraftStep<T>({
     if (!prontoRef.current) return
 
     localStorage.setItem(storageKey, JSON.stringify(values))
+    notificarRascunhoAlterado()
     setStatus('salvando')
 
     const timeout = setTimeout(async () => {
       try {
         await saveRef.current(values)
         localStorage.removeItem(storageKey)
+        notificarRascunhoAlterado()
         setStatus('salvo')
       } catch {
         setStatus('erro')
@@ -85,8 +93,9 @@ export function useDraftStep<T>({
 
   async function saveNow(): Promise<boolean> {
     try {
-      await saveRef.current(values)
+      await saveRef.current(valuesRef.current)
       localStorage.removeItem(storageKey)
+      notificarRascunhoAlterado()
       setStatus('salvo')
       return true
     } catch {
@@ -94,6 +103,17 @@ export function useDraftStep<T>({
       return false
     }
   }
+
+  // Retomada: ao reconectar, tenta reenviar o rascunho pendente desta
+  // etapa. saveNow() é idempotente (reenviar valores já salvos não causa
+  // dano) e usa valuesRef para sempre pegar o estado mais recente.
+  useEffect(() => {
+    function handleOnline() {
+      if (prontoRef.current) saveNow()
+    }
+    window.addEventListener('online', handleOnline)
+    return () => window.removeEventListener('online', handleOnline)
+  }, [])
 
   return { values, setValues, status, saveNow }
 }
