@@ -6,9 +6,7 @@ export type Levantamento = Database['public']['Tables']['levantamentos']['Row']
 const STATUS_EM_ABERTO = ['EM_ANDAMENTO', 'NECESSITA_COMPLEMENTACAO'] as const
 
 // Reaproveita um levantamento em aberto do inspetor para esta AVM, se
-// existir; caso contrário cria um novo. O formulário completo do
-// levantamento é escopo da Sprint 3 — aqui só garantimos que o registro
-// exista e fique rastreável.
+// existir; caso contrário cria um novo.
 export async function startLevantamento(
   avmId: string,
   inspetorId: string,
@@ -31,6 +29,19 @@ export async function startLevantamento(
     .insert({ avm_id: avmId, inspetor_id: inspetorId })
     .select('*')
     .single()
+
+  if (error) throw error
+  return data
+}
+
+export async function getLevantamento(
+  id: string,
+): Promise<Levantamento | null> {
+  const { data, error } = await supabase
+    .from('levantamentos')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle()
 
   if (error) throw error
   return data

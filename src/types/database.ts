@@ -178,26 +178,158 @@ export type Database = {
       }
       diagnosticos: {
         Row: {
+          acesso_condicao_via: string | null
+          acesso_observacoes: string | null
+          acesso_pedestre: boolean | null
+          acesso_restricoes: string | null
+          acesso_veicular: boolean | null
+          caracterizacao_observacoes: string | null
+          condicao_acesso_nota: number | null
+          condicao_acesso_obs: string | null
+          condicao_infraestrutura_nota: number | null
+          condicao_infraestrutura_obs: string | null
+          condicao_interferencia_operacional_nota: number | null
+          condicao_interferencia_operacional_obs: string | null
+          condicao_limpeza_nota: number | null
+          condicao_limpeza_obs: string | null
+          condicao_meio_ambiente_nota: number | null
+          condicao_meio_ambiente_obs: string | null
+          condicao_seguranca_nota: number | null
+          condicao_seguranca_obs: string | null
+          condicao_vegetacao_nota: number | null
+          condicao_vegetacao_obs: string | null
+          condicoes_climaticas: string | null
           created_at: string
           created_by: string | null
+          grau_obstaculos: string | null
           id: string
+          inclinacao: string | null
           levantamento_id: string
+          limpeza_acumulo_entulho: boolean | null
+          limpeza_necessita_capina: boolean | null
+          limpeza_nivel: string | null
+          limpeza_observacoes: string | null
+          limpeza_presenca_residuos: boolean | null
+          limpeza_tipo_residuos: string | null
+          meio_ambiente_categorias: string[]
+          meio_ambiente_gate: boolean | null
+          meio_ambiente_observacoes: string | null
+          obstaculos: Json
+          recursos_apoio_operacional: string | null
+          recursos_auxiliares: number | null
+          recursos_composicao_sugerida: string | null
+          recursos_equipe_especializada: string | null
+          recursos_jardineiros: number | null
+          recursos_observacoes: string | null
+          recursos_operadores: number | null
+          seguranca_observacoes: string | null
+          seguranca_perguntas: Json
+          superficie: string | null
+          topografia: string | null
           updated_at: string
           updated_by: string | null
         }
         Insert: {
+          acesso_condicao_via?: string | null
+          acesso_observacoes?: string | null
+          acesso_pedestre?: boolean | null
+          acesso_restricoes?: string | null
+          acesso_veicular?: boolean | null
+          caracterizacao_observacoes?: string | null
+          condicao_acesso_nota?: number | null
+          condicao_acesso_obs?: string | null
+          condicao_infraestrutura_nota?: number | null
+          condicao_infraestrutura_obs?: string | null
+          condicao_interferencia_operacional_nota?: number | null
+          condicao_interferencia_operacional_obs?: string | null
+          condicao_limpeza_nota?: number | null
+          condicao_limpeza_obs?: string | null
+          condicao_meio_ambiente_nota?: number | null
+          condicao_meio_ambiente_obs?: string | null
+          condicao_seguranca_nota?: number | null
+          condicao_seguranca_obs?: string | null
+          condicao_vegetacao_nota?: number | null
+          condicao_vegetacao_obs?: string | null
+          condicoes_climaticas?: string | null
           created_at?: string
           created_by?: string | null
+          grau_obstaculos?: string | null
           id?: string
+          inclinacao?: string | null
           levantamento_id: string
+          limpeza_acumulo_entulho?: boolean | null
+          limpeza_necessita_capina?: boolean | null
+          limpeza_nivel?: string | null
+          limpeza_observacoes?: string | null
+          limpeza_presenca_residuos?: boolean | null
+          limpeza_tipo_residuos?: string | null
+          meio_ambiente_categorias?: string[]
+          meio_ambiente_gate?: boolean | null
+          meio_ambiente_observacoes?: string | null
+          obstaculos?: Json
+          recursos_apoio_operacional?: string | null
+          recursos_auxiliares?: number | null
+          recursos_composicao_sugerida?: string | null
+          recursos_equipe_especializada?: string | null
+          recursos_jardineiros?: number | null
+          recursos_observacoes?: string | null
+          recursos_operadores?: number | null
+          seguranca_observacoes?: string | null
+          seguranca_perguntas?: Json
+          superficie?: string | null
+          topografia?: string | null
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
+          acesso_condicao_via?: string | null
+          acesso_observacoes?: string | null
+          acesso_pedestre?: boolean | null
+          acesso_restricoes?: string | null
+          acesso_veicular?: boolean | null
+          caracterizacao_observacoes?: string | null
+          condicao_acesso_nota?: number | null
+          condicao_acesso_obs?: string | null
+          condicao_infraestrutura_nota?: number | null
+          condicao_infraestrutura_obs?: string | null
+          condicao_interferencia_operacional_nota?: number | null
+          condicao_interferencia_operacional_obs?: string | null
+          condicao_limpeza_nota?: number | null
+          condicao_limpeza_obs?: string | null
+          condicao_meio_ambiente_nota?: number | null
+          condicao_meio_ambiente_obs?: string | null
+          condicao_seguranca_nota?: number | null
+          condicao_seguranca_obs?: string | null
+          condicao_vegetacao_nota?: number | null
+          condicao_vegetacao_obs?: string | null
+          condicoes_climaticas?: string | null
           created_at?: string
           created_by?: string | null
+          grau_obstaculos?: string | null
           id?: string
+          inclinacao?: string | null
           levantamento_id?: string
+          limpeza_acumulo_entulho?: boolean | null
+          limpeza_necessita_capina?: boolean | null
+          limpeza_nivel?: string | null
+          limpeza_observacoes?: string | null
+          limpeza_presenca_residuos?: boolean | null
+          limpeza_tipo_residuos?: string | null
+          meio_ambiente_categorias?: string[]
+          meio_ambiente_gate?: boolean | null
+          meio_ambiente_observacoes?: string | null
+          obstaculos?: Json
+          recursos_apoio_operacional?: string | null
+          recursos_auxiliares?: number | null
+          recursos_composicao_sugerida?: string | null
+          recursos_equipe_especializada?: string | null
+          recursos_jardineiros?: number | null
+          recursos_observacoes?: string | null
+          recursos_operadores?: number | null
+          seguranca_observacoes?: string | null
+          seguranca_perguntas?: Json
+          superficie?: string | null
+          topografia?: string | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -218,6 +350,64 @@ export type Database = {
           },
           {
             foreignKeyName: 'diagnosticos_updated_by_fkey'
+            columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      equipamentos: {
+        Row: {
+          avaliacao: string
+          created_at: string
+          created_by: string | null
+          id: string
+          justificativa: string | null
+          levantamento_id: string
+          nome: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          avaliacao: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          justificativa?: string | null
+          levantamento_id: string
+          nome: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          avaliacao?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          justificativa?: string | null
+          levantamento_id?: string
+          nome?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'equipamentos_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'equipamentos_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'levantamentos'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'equipamentos_updated_by_fkey'
             columns: ['updated_by']
             isOneToOne: false
             referencedRelation: 'profiles'
@@ -307,24 +497,39 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string | null
+          descricao: string | null
+          existente: boolean | null
           id: string
+          interferencia: boolean | null
           levantamento_id: string
+          necessidade_intervencao: string | null
+          tipo: string | null
           updated_at: string
           updated_by: string | null
         }
         Insert: {
           created_at?: string
           created_by?: string | null
+          descricao?: string | null
+          existente?: boolean | null
           id?: string
+          interferencia?: boolean | null
           levantamento_id: string
+          necessidade_intervencao?: string | null
+          tipo?: string | null
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
           created_at?: string
           created_by?: string | null
+          descricao?: string | null
+          existente?: boolean | null
           id?: string
+          interferencia?: boolean | null
           levantamento_id?: string
+          necessidade_intervencao?: string | null
+          tipo?: string | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -339,12 +544,67 @@ export type Database = {
           {
             foreignKeyName: 'infraestrutura_levantamento_id_fkey'
             columns: ['levantamento_id']
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'infraestrutura_updated_by_fkey'
+            columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      interferencias: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          descricao: string | null
+          id: string
+          levantamento_id: string
+          tipo: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          descricao?: string | null
+          id?: string
+          levantamento_id: string
+          tipo: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          descricao?: string | null
+          id?: string
+          levantamento_id?: string
+          tipo?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'interferencias_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'interferencias_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'levantamentos'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'interferencias_updated_by_fkey'
             columns: ['updated_by']
             isOneToOne: false
             referencedRelation: 'profiles'
@@ -418,24 +678,36 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string | null
+          descricao: string | null
           id: string
           levantamento_id: string
+          origem_modulo: string | null
+          origem_referencia: string | null
+          tipo: string | null
           updated_at: string
           updated_by: string | null
         }
         Insert: {
           created_at?: string
           created_by?: string | null
+          descricao?: string | null
           id?: string
           levantamento_id: string
+          origem_modulo?: string | null
+          origem_referencia?: string | null
+          tipo?: string | null
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
           created_at?: string
           created_by?: string | null
+          descricao?: string | null
           id?: string
           levantamento_id?: string
+          origem_modulo?: string | null
+          origem_referencia?: string | null
+          tipo?: string | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -492,6 +764,64 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      servicos: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          levantamento_id: string
+          necessidade: string
+          nome: string
+          observacao: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          levantamento_id: string
+          necessidade: string
+          nome: string
+          observacao?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          levantamento_id?: string
+          necessidade?: string
+          nome?: string
+          observacao?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'servicos_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'servicos_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'levantamentos'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'servicos_updated_by_fkey'
+            columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
       setores: {
         Row: {
@@ -643,28 +973,61 @@ export type Database = {
       }
       vegetacao: {
         Row: {
+          altura: string | null
+          arvores: string | null
+          cobertura: string | null
           created_at: string
           created_by: string | null
+          densidade: string | null
+          especie: string | null
           id: string
+          invasoras: string | null
           levantamento_id: string
+          observacoes: string | null
+          tipo: string | null
+          uniformidade: string | null
           updated_at: string
           updated_by: string | null
+          vegetacao_predominante: string | null
+          velocidade_crescimento: string | null
         }
         Insert: {
+          altura?: string | null
+          arvores?: string | null
+          cobertura?: string | null
           created_at?: string
           created_by?: string | null
+          densidade?: string | null
+          especie?: string | null
           id?: string
+          invasoras?: string | null
           levantamento_id: string
+          observacoes?: string | null
+          tipo?: string | null
+          uniformidade?: string | null
           updated_at?: string
           updated_by?: string | null
+          vegetacao_predominante?: string | null
+          velocidade_crescimento?: string | null
         }
         Update: {
+          altura?: string | null
+          arvores?: string | null
+          cobertura?: string | null
           created_at?: string
           created_by?: string | null
+          densidade?: string | null
+          especie?: string | null
           id?: string
+          invasoras?: string | null
           levantamento_id?: string
+          observacoes?: string | null
+          tipo?: string | null
+          uniformidade?: string | null
           updated_at?: string
           updated_by?: string | null
+          vegetacao_predominante?: string | null
+          velocidade_crescimento?: string | null
         }
         Relationships: [
           {
@@ -677,7 +1040,7 @@ export type Database = {
           {
             foreignKeyName: 'vegetacao_levantamento_id_fkey'
             columns: ['levantamento_id']
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },

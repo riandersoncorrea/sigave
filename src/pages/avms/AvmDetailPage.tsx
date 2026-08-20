@@ -88,6 +88,7 @@ export function AvmDetailPage() {
     try {
       const resultado = await startLevantamento(avm.id, profile.id)
       setLevantamento(resultado)
+      navigate(`/levantamentos/${resultado.id}/caracterizacao`)
     } catch (error) {
       setErro(
         error instanceof Error
@@ -199,10 +200,15 @@ export function AvmDetailPage() {
       {ehInspetor && (
         <div className="rounded-xl bg-white p-5 shadow-sm">
           {levantamento ? (
-            <p className="text-sm text-neutral-700">
-              Levantamento em andamento desde{' '}
-              {new Date(levantamento.created_at).toLocaleDateString('pt-BR')}.
-            </p>
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-neutral-700">
+                Levantamento em andamento desde{' '}
+                {new Date(levantamento.created_at).toLocaleDateString('pt-BR')}.
+              </p>
+              <Link to={`/levantamentos/${levantamento.id}/caracterizacao`}>
+                <Button>Continuar levantamento</Button>
+              </Link>
+            </div>
           ) : (
             <Button
               onClick={handleIniciarLevantamento}

@@ -61,6 +61,13 @@ npx supabase gen types typescript --linked > src/types/database.ts
 
 - [Criando usuários de teste](docs/sprint-1-usuarios-teste.md)
 
+> **Taxonomias do levantamento (Sprint 3):** os catálogos de opção em
+> `src/constants/levantamento.ts` para Caracterização, Terreno, Limpeza,
+> Segurança, Meio Ambiente, Infraestrutura e Acesso foram propostos pelo
+> time de desenvolvimento — não existe documento-fonte oficial para essas
+> listas. Cada bloco do arquivo está identificado como "(especificado)" ou
+> "(proposto)"; ajustar ali assim que houver uma especificação definitiva.
+
 ## Desenvolvimento
 
 ```bash
@@ -88,7 +95,7 @@ somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 - **Sprint 0** — Fundação do projeto ✅
 - **Sprint 1** — Banco de dados + autenticação + perfis ✅
 - **Sprint 2** — Cadastro e gestão de AVMs ✅
-- **Sprint 3** — Formulário completo de levantamento
+- **Sprint 3** — Formulário completo de levantamento ✅
 - **Sprint 4** — Fotografias + ocorrências + modo campo
 - **Sprint 5** — Checklist + resumo + envio
 - **Sprint 6** — Validação do Fiscal
