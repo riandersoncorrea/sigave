@@ -106,5 +106,5 @@ somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 - **Sprint 4** — Fotografias + ocorrências + modo campo ✅
 - **Sprint 5** — Checklist + resumo + envio ✅
 - **Sprint 6** — Validação do Fiscal ✅
-- **Sprint 7** — Dashboard + relatórios + exportação
+- **Sprint 7** — Dashboard + relatórios + exportação ✅
 - **Sprint 8** — Administração + auditoria + dados de teste + homologação

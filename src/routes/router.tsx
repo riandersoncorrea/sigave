@@ -24,6 +24,8 @@ import { FotografiasStep } from '@/pages/levantamento/FotografiasStep'
 import { ResumoStep } from '@/pages/levantamento/ResumoStep'
 import { ValidacoesListPage } from '@/pages/validacoes/ValidacoesListPage'
 import { ValidacaoReviewPage } from '@/pages/validacoes/ValidacaoReviewPage'
+import { DashboardPage } from '@/pages/dashboard/DashboardPage'
+import { RelatoriosPage } from '@/pages/relatorios/RelatoriosPage'
 import { requireSession, requireRole } from '@/features/auth/guards'
 
 const PERFIS_GESTAO_AVM = ['ADMINISTRADOR', 'FISCAL_VALE'] as const
@@ -40,6 +42,8 @@ export const router = createBrowserRouter([
     loader: requireSession,
     children: [
       { index: true, element: <Home /> },
+      { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'relatorios', element: <RelatoriosPage /> },
       { path: 'avms', element: <AvmListPage /> },
       {
         path: 'avms/novo',

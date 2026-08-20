@@ -27,10 +27,26 @@ export function Header() {
           </Link>
           {profile && (
             <Link
+              to="/dashboard"
+              className="hidden text-sm font-medium text-white/90 hover:text-white sm:inline"
+            >
+              Dashboard
+            </Link>
+          )}
+          {profile && (
+            <Link
               to="/avms"
               className="hidden text-sm font-medium text-white/90 hover:text-white sm:inline"
             >
               AVMs
+            </Link>
+          )}
+          {profile && (
+            <Link
+              to="/relatorios"
+              className="hidden text-sm font-medium text-white/90 hover:text-white sm:inline"
+            >
+              Relatórios
             </Link>
           )}
           {(profile?.perfil === 'ADMINISTRADOR' ||

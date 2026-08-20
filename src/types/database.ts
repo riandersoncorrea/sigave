@@ -348,6 +348,13 @@ export type Database = {
             foreignKeyName: 'diagnosticos_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: true
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'diagnosticos_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: true
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -401,6 +408,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'profiles'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'equipamentos_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
           },
           {
             foreignKeyName: 'equipamentos_levantamento_id_fkey'
@@ -469,8 +483,22 @@ export type Database = {
             foreignKeyName: 'evidencias_avm_id_fkey'
             columns: ['avm_id']
             isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['avm_id']
+          },
+          {
+            foreignKeyName: 'evidencias_avm_id_fkey'
+            columns: ['avm_id']
+            isOneToOne: false
             referencedRelation: 'avms'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'evidencias_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
           },
           {
             foreignKeyName: 'evidencias_levantamento_id_fkey'
@@ -554,6 +582,13 @@ export type Database = {
             foreignKeyName: 'infraestrutura_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: true
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'infraestrutura_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: true
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -609,6 +644,13 @@ export type Database = {
             foreignKeyName: 'interferencias_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'interferencias_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -647,6 +689,13 @@ export type Database = {
           usuario_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: 'levantamento_historico_status_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
           {
             foreignKeyName: 'levantamento_historico_status_levantamento_id_fkey'
             columns: ['levantamento_id']
@@ -695,6 +744,13 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: 'levantamentos_avm_id_fkey'
+            columns: ['avm_id']
+            isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['avm_id']
+          },
           {
             foreignKeyName: 'levantamentos_avm_id_fkey'
             columns: ['avm_id']
@@ -796,6 +852,13 @@ export type Database = {
             foreignKeyName: 'ocorrencias_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'ocorrencias_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -879,6 +942,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'profiles'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'servicos_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
           },
           {
             foreignKeyName: 'servicos_levantamento_id_fkey'
@@ -1039,6 +1109,13 @@ export type Database = {
             foreignKeyName: 'validacoes_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: false
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'validacoes_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: false
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -1114,6 +1191,13 @@ export type Database = {
             foreignKeyName: 'vegetacao_levantamento_id_fkey'
             columns: ['levantamento_id']
             isOneToOne: true
+            referencedRelation: 'avm_status_atual'
+            referencedColumns: ['levantamento_id_atual']
+          },
+          {
+            foreignKeyName: 'vegetacao_levantamento_id_fkey'
+            columns: ['levantamento_id']
+            isOneToOne: true
             referencedRelation: 'levantamentos'
             referencedColumns: ['id']
           },
@@ -1128,7 +1212,46 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      avm_status_atual: {
+        Row: {
+          avm_id: string | null
+          classe_funcional:
+            Database['public']['Enums']['avm_classe_funcional'] | null
+          condicao_media_atual: number | null
+          id_avm: string | null
+          inspetor_id: string | null
+          levantamento_id_atual: string | null
+          meio_ambiente_gate_atual: boolean | null
+          ocorrencias_criticas_count: number | null
+          setor_id: string | null
+          status_atual: Database['public']['Enums']['status_ciclo'] | null
+          unidade_id: string | null
+          vegetacao_tipo_atual: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'avms_inspetor_id_fkey'
+            columns: ['inspetor_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'avms_setor_id_fkey'
+            columns: ['setor_id']
+            isOneToOne: false
+            referencedRelation: 'setores'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'avms_unidade_id_fkey'
+            columns: ['unidade_id']
+            isOneToOne: false
+            referencedRelation: 'unidades'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
