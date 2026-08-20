@@ -14,6 +14,7 @@ export interface LevantamentoOutletContext {
   levantamento: Levantamento
   avm: AvmComRelacoes
   diagnostico: Diagnostico
+  recarregarLevantamento: () => Promise<void>
 }
 
 export function LevantamentoWizardRoute() {
@@ -25,19 +26,22 @@ export function LevantamentoWizardRoute() {
   const [avm, setAvm] = useState<AvmComRelacoes | null>(null)
   const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(null)
 
-  useEffect(() => {
+  async function carregar() {
     if (!id) return
-    getLevantamento(id).then(async (lev) => {
-      setLevantamento(lev)
-      if (lev) {
-        const [avmData, diagnosticoData] = await Promise.all([
-          getAvm(lev.avm_id),
-          getOrCreateDiagnostico(lev.id),
-        ])
-        setAvm(avmData)
-        setDiagnostico(diagnosticoData)
-      }
-    })
+    const lev = await getLevantamento(id)
+    setLevantamento(lev)
+    if (lev) {
+      const [avmData, diagnosticoData] = await Promise.all([
+        getAvm(lev.avm_id),
+        getOrCreateDiagnostico(lev.id),
+      ])
+      setAvm(avmData)
+      setDiagnostico(diagnosticoData)
+    }
+  }
+
+  useEffect(() => {
+    carregar()
   }, [id])
 
   if (levantamento === undefined) {
@@ -68,7 +72,12 @@ export function LevantamentoWizardRoute() {
       </p>
       <Outlet
         context={
-          { levantamento, avm, diagnostico } satisfies LevantamentoOutletContext
+          {
+            levantamento,
+            avm,
+            diagnostico,
+            recarregarLevantamento: carregar,
+          } satisfies LevantamentoOutletContext
         }
       />
     </div>

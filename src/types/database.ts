@@ -45,6 +45,7 @@ export type Database = {
           dados_antigos: Json | null
           dados_novos: Json | null
           id: string
+          motivo: string | null
           operacao: string
           registro_id: string
           tabela: string
@@ -55,6 +56,7 @@ export type Database = {
           dados_antigos?: Json | null
           dados_novos?: Json | null
           id?: string
+          motivo?: string | null
           operacao: string
           registro_id: string
           tabela: string
@@ -65,6 +67,7 @@ export type Database = {
           dados_antigos?: Json | null
           dados_novos?: Json | null
           id?: string
+          motivo?: string | null
           operacao?: string
           registro_id?: string
           tabela?: string
@@ -781,6 +784,60 @@ export type Database = {
           },
         ]
       }
+      listas_opcoes: {
+        Row: {
+          ativo: boolean
+          categoria: string
+          created_at: string
+          created_by: string | null
+          id: string
+          ordem: number
+          rotulo: string
+          updated_at: string
+          updated_by: string | null
+          valor: string
+        }
+        Insert: {
+          ativo?: boolean
+          categoria: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          ordem?: number
+          rotulo: string
+          updated_at?: string
+          updated_by?: string | null
+          valor: string
+        }
+        Update: {
+          ativo?: boolean
+          categoria?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          ordem?: number
+          rotulo?: string
+          updated_at?: string
+          updated_by?: string | null
+          valor?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'listas_opcoes_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'listas_opcoes_updated_by_fkey'
+            columns: ['updated_by']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       ocorrencias: {
         Row: {
           created_at: string
@@ -1212,6 +1269,29 @@ export type Database = {
       }
     }
     Views: {
+      audit_log_campos: {
+        Row: {
+          audit_log_id: string | null
+          campo: string | null
+          criado_em: string | null
+          motivo: string | null
+          operacao: string | null
+          registro_id: string | null
+          tabela: string | null
+          usuario_id: string | null
+          valor_anterior: Json | null
+          valor_novo: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'audit_log_usuario_id_fkey'
+            columns: ['usuario_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       avm_status_atual: {
         Row: {
           avm_id: string | null
@@ -1254,6 +1334,29 @@ export type Database = {
       }
     }
     Functions: {
+      atualizar_perfil_usuario: {
+        Args: {
+          p_ativo: boolean
+          p_motivo?: string
+          p_perfil: Database['public']['Enums']['perfil_usuario']
+          p_usuario_id: string
+        }
+        Returns: {
+          ativo: boolean
+          created_at: string
+          email: string
+          id: string
+          nome_completo: string
+          perfil: Database['public']['Enums']['perfil_usuario'] | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: '*'
+          to: 'profiles'
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       is_admin: { Args: never; Returns: boolean }
       is_inspetor_do_avm: { Args: { p_avm_id: string }; Returns: boolean }
       levantamento_editavel: {

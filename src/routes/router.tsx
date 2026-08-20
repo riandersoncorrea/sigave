@@ -26,10 +26,15 @@ import { ValidacoesListPage } from '@/pages/validacoes/ValidacoesListPage'
 import { ValidacaoReviewPage } from '@/pages/validacoes/ValidacaoReviewPage'
 import { DashboardPage } from '@/pages/dashboard/DashboardPage'
 import { RelatoriosPage } from '@/pages/relatorios/RelatoriosPage'
+import { AdminPage } from '@/pages/admin/AdminPage'
+import { AdminUsuariosPage } from '@/pages/admin/AdminUsuariosPage'
+import { AdminListasPage } from '@/pages/admin/AdminListasPage'
+import { AdminAuditoriaPage } from '@/pages/admin/AdminAuditoriaPage'
 import { requireSession, requireRole } from '@/features/auth/guards'
 
 const PERFIS_GESTAO_AVM = ['ADMINISTRADOR', 'FISCAL_VALE'] as const
 const PERFIS_VALIDACAO = ['ADMINISTRADOR', 'FISCAL_VALE'] as const
+const PERFIS_ADMIN = ['ADMINISTRADOR'] as const
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +70,26 @@ export const router = createBrowserRouter([
         path: 'validacoes/:id',
         element: <ValidacaoReviewPage />,
         loader: () => requireRole([...PERFIS_VALIDACAO]),
+      },
+      {
+        path: 'admin',
+        element: <AdminPage />,
+        loader: () => requireRole([...PERFIS_ADMIN]),
+      },
+      {
+        path: 'admin/usuarios',
+        element: <AdminUsuariosPage />,
+        loader: () => requireRole([...PERFIS_ADMIN]),
+      },
+      {
+        path: 'admin/listas',
+        element: <AdminListasPage />,
+        loader: () => requireRole([...PERFIS_ADMIN]),
+      },
+      {
+        path: 'admin/auditoria',
+        element: <AdminAuditoriaPage />,
+        loader: () => requireRole([...PERFIS_ADMIN]),
       },
       {
         path: 'levantamentos/:id',

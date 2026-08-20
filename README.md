@@ -107,4 +107,10 @@ somente sob demanda, sem antecipar funcionalidades de sprints futuras.
 - **Sprint 5** — Checklist + resumo + envio ✅
 - **Sprint 6** — Validação do Fiscal ✅
 - **Sprint 7** — Dashboard + relatórios + exportação ✅
-- **Sprint 8** — Administração + auditoria + dados de teste + homologação
+- **Sprint 8** — Administração + auditoria + dados de teste + homologação ✅
+
+O fluxo completo de ponta a ponta (admin cria AVM e atribui inspetor →
+inspetor preenche, fotografa, registra ocorrência e envia → fiscal
+reprova → inspetor corrige e reenvia → fiscal aprova) foi homologado
+manualmente na Sprint 8, com verificação de dashboard, auditoria e
+exportação — ver relato da sprint. MVP concluído.

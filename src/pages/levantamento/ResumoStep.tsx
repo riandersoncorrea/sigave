@@ -65,7 +65,7 @@ interface Dados {
 }
 
 export function ResumoStep() {
-  const { levantamento, avm } = useLevantamentoContext()
+  const { levantamento, avm, recarregarLevantamento } = useLevantamentoContext()
   const navigate = useNavigate()
   const [dados, setDados] = useState<Dados | null>(null)
   const [enviando, setEnviando] = useState(false)
@@ -138,7 +138,7 @@ export function ResumoStep() {
     setErroEnvio(null)
     try {
       await enviarParaValidacao(levantamento.id)
-      await carregar()
+      await Promise.all([carregar(), recarregarLevantamento()])
     } catch (error) {
       setErroEnvio(
         error instanceof Error
