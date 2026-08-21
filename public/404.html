@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SIGAVE CAMPO</title>
+    <!--
+      GitHub Pages não tem rewrite de servidor para SPA: acessar/atualizar
+      uma rota como /sigave/dashboard direto retorna este 404.html (não
+      existe arquivo físico nesse caminho). Ele reescreve a URL como uma
+      query string e redireciona para index.html, que a decodifica de
+      volta (ver script em index.html) antes do React Router montar —
+      padrão bem estabelecido (rafgraph/spa-github-pages).
+    -->
+    <script>
+      var segmentCount = 1 // troque para 0 se publicar na raiz (username.github.io), sem subpasta
+      var l = window.location
+      l.replace(
+        l.protocol +
+          '//' +
+          l.hostname +
+          (l.port ? ':' + l.port : '') +
+          l.pathname
+            .split('/')
+            .slice(0, 1 + segmentCount)
+            .join('/') +
+          '/?/' +
+          l.pathname
+            .slice(1)
+            .split('/')
+            .slice(segmentCount)
+            .join('/')
+            .replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash,
+      )
+    </script>
+  </head>
+  <body></body>
+</html>

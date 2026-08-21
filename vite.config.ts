@@ -6,6 +6,9 @@ import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GH_PAGES_BASE só é setada pelo workflow de deploy (.github/workflows/
+  // deploy.yml) — localmente (dev/build/preview) o base continua "/".
+  base: process.env.GH_PAGES_BASE || '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -26,15 +29,18 @@ export default defineConfig({
         theme_color: '#007E7A',
         background_color: '#F4F4F4',
         display: 'standalone',
-        start_url: '/',
+        // Caminhos relativos (sem "/" inicial) para funcionar tanto na
+        // raiz (dev) quanto sob /sigave/ (GitHub Pages) — um caminho
+        // absoluto ignoraria o base e quebraria no subpath.
+        start_url: '.',
         icons: [
           {
-            src: '/icons/icon-192.png',
+            src: 'icons/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/icons/icon-512.png',
+            src: 'icons/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
           },
