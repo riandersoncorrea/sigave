@@ -1,34 +1,102 @@
 # SIGAVE CAMPO
 
-Sistema de Levantamento e Diagnóstico de Áreas Verdes.
+**Sistema de Levantamento e Diagnóstico de Áreas Verdes**
 
-Utilizado pela Sapore para realizar o levantamento e diagnóstico técnico das
-Áreas Verdes de Manutenção (AVM) da Vale, criando uma base de dados de campo
-estruturada, padronizada e rastreável.
+Aplicação web mobile-first usada pela **Sapore** para inspecionar e
+diagnosticar em campo as Áreas Verdes de Manutenção (AVM) da **Vale**,
+transformando uma vistoria feita a pé em dados estruturados, padronizados e
+rastreáveis — desde o primeiro registro até a aprovação final.
 
-Fluxo do sistema: **Cadastrar → Inspecionar → Diagnosticar → Fotografar → Validar**.
+🔗 **Demo:** https://riandersoncorrea.github.io/sigave/
+
+## O problema que resolve
+
+Levantamentos de áreas verdes tradicionalmente viram planilhas soltas,
+fotos sem contexto e diagnósticos que não se conversam entre si. O SIGAVE
+CAMPO padroniza esse processo em um fluxo único, usável do celular no meio
+do campo, com preenchimento salvo automaticamente (mesmo offline) e uma
+trilha de auditoria completa de quem alterou o quê.
+
+## Fluxo
+
+```
+Cadastrar → Inspecionar → Diagnosticar → Fotografar → Validar
+```
+
+1. **Cadastrar** — a AVM é registrada (localização, classe funcional, área)
+   e atribuída a um inspetor.
+2. **Inspecionar** — o inspetor abre um levantamento em campo e percorre um
+   formulário guiado por etapas (vegetação, condição, limpeza, segurança,
+   infraestrutura, meio ambiente, acesso, interferências, equipamentos,
+   serviços, recursos, ocorrências).
+3. **Diagnosticar** — cada dimensão recebe uma nota de condição (1–5), com
+   observação obrigatória quando o cenário exige atenção.
+4. **Fotografar** — evidências fotográficas obrigatórias e adicionais,
+   sempre com identificação, data/hora, usuário e sequência.
+5. **Validar** — antes do envio, um checklist mostra exatamente o que falta
+   preencher; o fiscal da Vale então aprova, reprova ou solicita
+   complementação — com motivo registrado e histórico nunca sobrescrito.
+
+## Principais funcionalidades
+
+- **Formulário de campo mobile-first**, com autosave local e sincronização
+  automática ao voltar a ficar online.
+- **Checklist inteligente** antes do envio, com mensagens específicas (não
+  um genérico "formulário inválido").
+- **Ciclo de validação** do fiscal com histórico completo (enviado →
+  reprovado/complementação → reenviado → aprovado).
+- **Dashboard** com indicadores (% diagnosticadas, % aprovadas, ocorrências
+  críticas, pendências ambientais) e filtros cruzados.
+- **Exportação em CSV** de todas as entidades, sempre com o ID da AVM como
+  chave de relacionamento.
+- **Administração**: gestão de usuários e perfis, catálogos de opção
+  administráveis, e auditoria em nível de campo (quem mudou o quê, quando,
+  de que valor para qual, e por quê).
+- **Controle de acesso por perfil** (`ADMINISTRADOR`, `INSPETOR_SAPORE`,
+  `FISCAL_VALE`), aplicado no banco via Row Level Security — nunca apenas
+  escondido na interface.
 
 ## Escopo
 
-Este sistema coleta e organiza fatos observados em campo e permite sua
-validação. Ele **não** cria o Plano de Manutenção, **não** define frequência
-ou criticidade definitiva, **não** gera ordem de manutenção, **não** cria
-códigos SAP e **não** possui módulo GIS ou mapa.
+O sistema coleta, padroniza e valida fatos observados em campo. Ele
+**não** substitui um Plano de Manutenção, **não** define frequência ou
+criticidade definitiva de manutenção, **não** gera ordens de serviço ou
+códigos SAP, e **não** é um sistema de mapas/GIS — o modelo de dados foi
+desenhado para se relacionar com esses conceitos no futuro, sem
+implementá-los agora.
 
-## Stack
+## Stack técnica
 
-- **Frontend:** React + TypeScript + Vite
-- **UI:** Tailwind CSS, mobile-first
-- **Backend:** Supabase (PostgreSQL, Auth, Storage, Row Level Security)
+| Camada          | Tecnologia                                              |
+| --------------- | -------------------------------------------------------- |
+| Frontend        | React 19 + TypeScript + Vite, Tailwind CSS               |
+| Backend          | Supabase (PostgreSQL, Auth, Storage, Row Level Security) |
+| Automação de fundo | Postgres triggers (auditoria, histórico de status)      |
+| Deploy           | GitHub Actions → GitHub Pages                            |
 
-## Perfis de acesso
+## Rodando localmente
 
-- `ADMINISTRADOR`
-- `INSPETOR_SAPORE`
-- `FISCAL_VALE`
+```bash
+npm install
+cp .env.example .env   # preencha VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY
+npm run dev
+```
 
-O controle de acesso é aplicado no backend via Row Level Security, não apenas
-no frontend.
+| Comando                | Descrição                            |
+| ----------------------- | ------------------------------------- |
+| `npm run dev`           | Servidor de desenvolvimento           |
+| `npm run build`         | Type-check + build de produção        |
+| `npm run lint`          | Lint (oxlint)                         |
+| `npm run format`        | Formata o código com Prettier         |
+| `npm run preview`       | Preview local do build de produção    |
+
+As migrations do banco (schema + Row Level Security) ficam em
+`supabase/migrations/`, aplicadas via Supabase CLI:
+
+```bash
+npx supabase link --project-ref <project-ref>
+npx supabase db push
+```
 
 ## Estrutura do projeto
 
@@ -41,76 +109,9 @@ src/
   hooks/        hooks React reutilizáveis
   validations/  esquemas e regras de validação
   types/        tipos e contratos compartilhados
-  constants/    constantes globais (ex.: tokens de tema)
+  constants/    constantes globais
   routes/       definição de rotas
+supabase/
+  migrations/   schema do banco + Row Level Security
+  functions/    Edge Functions (operações que exigem privilégio elevado)
 ```
-
-## Banco de dados
-
-Migrations SQL em `supabase/migrations/` (Postgres + Row Level Security via
-Supabase CLI). Aplicar com:
-
-```bash
-npx supabase login --token <personal-access-token>
-npx supabase link --project-ref <project-ref>
-npx supabase db push
-npx supabase gen types typescript --linked > src/types/database.ts
-```
-
-## Documentação
-
-- [Criando usuários de teste](docs/sprint-1-usuarios-teste.md)
-
-> **Taxonomias do levantamento (Sprint 3):** os catálogos de opção em
-> `src/constants/levantamento.ts` para Caracterização, Terreno, Limpeza,
-> Segurança, Meio Ambiente, Infraestrutura e Acesso foram propostos pelo
-> time de desenvolvimento — não existe documento-fonte oficial para essas
-> listas. Cada bloco do arquivo está identificado como "(especificado)" ou
-> "(proposto)"; ajustar ali assim que houver uma especificação definitiva.
-> Os tipos de Ocorrência e de Evidência/Fotografia, em contraste, vieram
-> explícitos da especificação da Sprint 4.
-
-> **Ícones do PWA:** `public/icons/icon-192.png` e `icon-512.png` foram
-> gerados automaticamente a partir de `public/favicon.svg` (círculo
-> amarelo sobre fundo verde) — um placeholder funcional, não uma peça de
-> identidade visual definitiva.
-
-## Desenvolvimento
-
-```bash
-npm install
-cp .env.example .env   # preencha VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY
-npm run dev
-```
-
-### Scripts
-
-| Comando                | Descrição                            |
-| ---------------------- | ------------------------------------ |
-| `npm run dev`          | Inicia o servidor de desenvolvimento |
-| `npm run build`        | Type-check + build de produção       |
-| `npm run lint`         | Executa o oxlint                     |
-| `npm run format`       | Formata o código com Prettier        |
-| `npm run format:check` | Verifica formatação sem alterar      |
-| `npm run preview`      | Preview local do build de produção   |
-
-## Sprints
-
-O desenvolvimento é feito em sprints incrementais. Cada sprint é executada
-somente sob demanda, sem antecipar funcionalidades de sprints futuras.
-
-- **Sprint 0** — Fundação do projeto ✅
-- **Sprint 1** — Banco de dados + autenticação + perfis ✅
-- **Sprint 2** — Cadastro e gestão de AVMs ✅
-- **Sprint 3** — Formulário completo de levantamento ✅
-- **Sprint 4** — Fotografias + ocorrências + modo campo ✅
-- **Sprint 5** — Checklist + resumo + envio ✅
-- **Sprint 6** — Validação do Fiscal ✅
-- **Sprint 7** — Dashboard + relatórios + exportação ✅
-- **Sprint 8** — Administração + auditoria + dados de teste + homologação ✅
-
-O fluxo completo de ponta a ponta (admin cria AVM e atribui inspetor →
-inspetor preenche, fotografa, registra ocorrência e envia → fiscal
-reprova → inspetor corrige e reenvia → fiscal aprova) foi homologado
-manualmente na Sprint 8, com verificação de dashboard, auditoria e
-exportação — ver relato da sprint. MVP concluído.
