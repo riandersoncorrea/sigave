@@ -18,7 +18,7 @@ export function Login() {
 
     try {
       await signInWithPassword(email, password)
-      navigate('/', { replace: true })
+      navigate('/dashboard', { replace: true })
     } catch {
       setError('E-mail ou senha inválidos.')
     } finally {

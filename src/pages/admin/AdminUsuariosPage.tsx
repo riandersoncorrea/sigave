@@ -1,16 +1,126 @@
 import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { PERFIL_LABELS, PERFIL_OPTIONS } from '@/constants/perfil'
 import { useAuth } from '@/features/auth/useAuth'
 import {
   atualizarPerfilUsuario,
+  criarUsuario,
   listUsuarios,
   type Perfil,
   type Usuario,
 } from '@/services/admin/usuarios'
+
+function NovoUsuario({
+  onCriado,
+  onCancelar,
+}: {
+  onCriado: (usuario: Usuario) => void
+  onCancelar: () => void
+}) {
+  const [nomeCompleto, setNomeCompleto] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [perfil, setPerfil] = useState<Perfil>('INSPETOR_SAPORE')
+  const [motivo, setMotivo] = useState('')
+  const [salvando, setSalvando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+
+  async function salvar() {
+    if (!email.trim() || !password) {
+      setErro('Preencha e-mail e senha.')
+      return
+    }
+    setSalvando(true)
+    setErro(null)
+    try {
+      const criado = await criarUsuario({
+        email,
+        password,
+        nomeCompleto,
+        perfil,
+        motivo,
+      })
+      onCriado({
+        id: criado.id,
+        email: criado.email,
+        nome_completo: nomeCompleto.trim(),
+        perfil,
+        ativo: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+    } catch (error) {
+      setErro(
+        error instanceof Error ? error.message : 'Erro ao cadastrar usuário.',
+      )
+    } finally {
+      setSalvando(false)
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
+      <p className="text-sm font-semibold text-neutral-800">Novo usuário</p>
+
+      <Input
+        id="novo-usuario-nome"
+        label="Nome completo"
+        value={nomeCompleto}
+        onChange={(event) => setNomeCompleto(event.target.value)}
+      />
+      <Input
+        id="novo-usuario-email"
+        label="E-mail"
+        type="email"
+        autoComplete="off"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+      />
+      <Input
+        id="novo-usuario-senha"
+        label="Senha temporária"
+        type="password"
+        autoComplete="new-password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
+
+      <Select
+        label="Perfil"
+        value={perfil}
+        onChange={(event) => setPerfil(event.target.value as Perfil)}
+      >
+        {PERFIL_OPTIONS.map((opcao) => (
+          <option key={opcao.value} value={opcao.value}>
+            {opcao.label}
+          </option>
+        ))}
+      </Select>
+
+      <Textarea
+        label="Motivo (opcional)"
+        value={motivo}
+        onChange={(event) => setMotivo(event.target.value)}
+        placeholder="Por que esse usuário está sendo cadastrado?"
+      />
+
+      {erro && <p className="text-sm text-red-600">{erro}</p>}
+
+      <div className="flex gap-2">
+        <Button variant="outline" onClick={onCancelar} disabled={salvando}>
+          Cancelar
+        </Button>
+        <Button onClick={salvar} disabled={salvando}>
+          {salvando ? 'Cadastrando…' : 'Cadastrar'}
+        </Button>
+      </div>
+    </div>
+  )
+}
 
 function EditarUsuario({
   usuario,
@@ -100,6 +210,7 @@ export function AdminUsuariosPage() {
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
   const [editandoId, setEditandoId] = useState<string | null>(null)
+  const [novoAberto, setNovoAberto] = useState(false)
 
   useEffect(() => {
     listUsuarios()
@@ -115,14 +226,41 @@ export function AdminUsuariosPage() {
     setEditandoId(null)
   }
 
+  function handleCriado(criado: Usuario) {
+    setUsuarios((atual) =>
+      [...atual, criado].sort((a, b) =>
+        a.nome_completo.localeCompare(b.nome_completo),
+      ),
+    )
+    setNovoAberto(false)
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        <h1 className="text-xl font-bold text-neutral-900">Usuários</h1>
-        <p className="text-sm text-neutral-500">
-          Visualizar perfil, alterar perfil e ativar/desativar usuários.
-        </p>
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h1 className="text-xl font-bold text-neutral-900">Usuários</h1>
+          <p className="text-sm text-neutral-500">
+            Visualizar perfil, alterar perfil e ativar/desativar usuários.
+          </p>
+        </div>
+        {!novoAberto && (
+          <Button
+            fullWidth={false}
+            className="px-4"
+            onClick={() => setNovoAberto(true)}
+          >
+            + Novo usuário
+          </Button>
+        )}
       </div>
+
+      {novoAberto && (
+        <NovoUsuario
+          onCriado={handleCriado}
+          onCancelar={() => setNovoAberto(false)}
+        />
+      )}
 
       {erro && <p className="text-sm text-red-600">{erro}</p>}
 
